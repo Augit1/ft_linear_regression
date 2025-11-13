@@ -1,15 +1,11 @@
 use std::{error::Error, fs};
-use serde::Deserialize;
+use std::io::{self, Write};
 
-const SCALE_X: f64 = 100_000.0; 
-
-#[derive(Deserialize)]
-struct Model { theta0: f64, theta1: f64 }
+use ft_linear_regression::{Model, SCALE_X};
 
 fn main() -> Result<(), Box<dyn Error>> {
     let m: Model = serde_json::from_str(&fs::read_to_string("theta.json")?)?;
 
-    use std::io::{self, Write};
     print!("Mileage ? ");
     io::stdout().flush()?;
     let mut s = String::new();
@@ -19,6 +15,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     let x = mileage / SCALE_X;
     let price = (m.theta0 + m.theta1 * x).max(0.0);
 
-    println!("{price}");
+    println!("{:.2}€", price);
     Ok(())
 }
