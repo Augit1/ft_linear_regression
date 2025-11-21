@@ -5,7 +5,7 @@ pub const ITERATIONS: usize = 5_000;
 
 pub type DynResult<T = ()> = Result<T, Box<dyn std::error::Error>>;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Default)]
 pub struct Model {
     pub theta0: f64,
     pub theta1: f64,
