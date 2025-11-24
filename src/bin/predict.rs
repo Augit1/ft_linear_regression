@@ -13,7 +13,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     io::stdout().flush()?;
     let mut s = String::new();
     io::stdin().read_line(&mut s)?;
-    let mileage: f64 = s.trim().parse()?;
+    let mileage: f64 = s.trim().parse::<f64>().ok()
+        .filter(|v| *v >= 0.0)
+        .ok_or("Mileage must be a non-negative number")?;
 
     let x = mileage / SCALE_X;
     let price = (m.theta0 + m.theta1 * x).max(0.0).min(m.theta0);
